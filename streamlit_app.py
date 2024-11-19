@@ -19,101 +19,102 @@
     }
    ],
    "source": [
-    "import streamlit as st\n",
-    "\n",
-    "# Título de la aplicación\n",
-    "st.title(\"Generador de HTML: Selector de Campos\")\n",
-    "st.write(\"Rellena los campos en cada categoría para generar el script HTML.\")\n",
-    "\n",
-    "# Definir las categorías y campos\n",
-    "campos = {\n",
-    "    \"Style\": {\n",
-    "        \"email_body_background_color_primary\": \"Color\",\n",
-    "        \"email_body_background_color_secondary\": \"Color\",\n",
-    "        \"font_color_primary\": \"Color\",\n",
-    "        \"footer_font_color\": \"Color\",\n",
-    "        \"footer_background_color\": \"Color\",\n",
-    "        \"cta_type_1_color\": \"Color\",\n",
-    "        \"cta_type_1_background_color\": \"Color\",\n",
-    "    },\n",
-    "    \"Links\": {\n",
-    "        \"landing_link\": \"Link\",\n",
-    "        \"counter_1_gif\": \"Link\",\n",
-    "    },\n",
-    "    \"Images\": {\n",
-    "        \"header_experience_image\": \"Link\",\n",
-    "        \"header_experience_link\": \"Link\",\n",
-    "        \"image_address\": \"Link\",\n",
-    "        \"image_link\": \"Link\",\n",
-    "        \"footer_experience_logo_image\": \"Link\",\n",
-    "        \"footer_fever_logo_image\": \"Link\",\n",
-    "        \"partner_logo_1_image\": \"Link\",\n",
-    "        \"partner_logo_2_image\": \"Link\",\n",
-    "    },\n",
-    "    \"Text\": {\n",
-    "        \"title_text\": \"Texto\",\n",
-    "        \"paragraph_1_text\": \"Texto\",\n",
-    "        \"paragraph_2_text\": \"Texto\",\n",
-    "    }\n",
-    "}\n",
-    "\n",
-    "# Diccionario para almacenar los valores introducidos\n",
-    "valores = {}\n",
-    "\n",
-    "# Iterar sobre las categorías y campos\n",
-    "for categoria, campos_categoria in campos.items():\n",
-    "    st.header(categoria)  # Mostrar título de la categoría\n",
-    "    valores[categoria] = {}  # Inicializar el diccionario de valores para la categoría\n",
-    "    \n",
-    "    for campo, tipo in campos_categoria.items():\n",
-    "        if tipo == \"Color\":\n",
-    "            # Entrada para seleccionar color\n",
-    "            valores[categoria][campo] = st.color_picker(f\"{campo.replace('_', ' ').capitalize()}:\", \"#FFFFFF\")\n",
-    "        elif tipo == \"Link\":\n",
-    "            # Entrada para links\n",
-    "            valores[categoria][campo] = st.text_input(f\"{campo.replace('_', ' ').capitalize()} (URL):\")\n",
-    "        elif tipo == \"Texto\":\n",
-    "            # Entrada para texto\n",
-    "            valores[categoria][campo] = st.text_area(f\"{campo.replace('_', ' ').capitalize()}:\")\n",
-    "\n",
-    "# Generar el script HTML\n",
-    "if st.button(\"Generar HTML\"):\n",
-    "    html_script = \"<!DOCTYPE html>\\n<html>\\n<head>\\n<style>\\n\"\n",
-    "    \n",
-    "    # Incorporar los estilos (Style)\n",
-    "    for campo, valor in valores[\"Style\"].items():\n",
-    "        campo_css = campo.replace(\"_\", \"-\")  # Convertir a formato CSS\n",
-    "        html_script += f\"  --{campo_css}: {valor};\\n\"\n",
-    "    html_script += \"</style>\\n</head>\\n<body>\\n\"\n",
-    "\n",
-    "    # Incorporar los links (Links)\n",
-    "    for campo, valor in valores[\"Links\"].items():\n",
-    "        if valor:  # Si hay un valor introducido\n",
-    "            html_script += f'  <a href=\"{valor}\" id=\"{campo}\">{campo.replace(\"_\", \" \").capitalize()}</a><br>\\n'\n",
-    "\n",
-    "    # Incorporar las imágenes (Images)\n",
-    "    for campo, valor in valores[\"Images\"].items():\n",
-    "        if valor:\n",
-    "            html_script += f'  <img src=\"{valor}\" alt=\"{campo.replace(\"_\", \" \").capitalize()}\"><br>\\n'\n",
-    "\n",
-    "    # Incorporar el texto (Text)\n",
-    "    for campo, valor in valores[\"Text\"].items():\n",
-    "        if valor:\n",
-    "            html_script += f\"  <p id='{campo}'>{valor}</p>\\n\"\n",
-    "\n",
-    "    html_script += \"</body>\\n</html>\"\n",
-    "\n",
-    "    # Mostrar el código generado\n",
-    "    st.write(\"### Script HTML generado:\")\n",
-    "    st.code(html_script, language=\"html\")\n",
-    "\n",
-    "    # Opción para descargar el archivo\n",
-    "    st.download_button(\n",
-    "        label=\"Descargar HTML\",\n",
-    "        data=html_script,\n",
-    "        file_name=\"formulario_generado.html\",\n",
-    "        mime=\"text/html\"\n",
-    "    )\n"
+    "import streamlit as st
+
+# Título de la aplicación
+st.title("Generador de HTML interactivo")
+st.write("Selecciona y rellena los campos de cada categoría para generar un script HTML.")
+
+# Definir las categorías y sus campos
+campos = {
+    "Style": {
+        "email_body_background_color_primary": "Color",
+        "email_body_background_color_secondary": "Color",
+        "font_color_primary": "Color",
+        "footer_font_color": "Color",
+        "footer_background_color": "Color",
+        "cta_type_1_color": "Color",
+        "cta_type_1_background_color": "Color",
+    },
+    "Links": {
+        "landing_link": "Link",
+        "counter_1_gif": "Link",
+    },
+    "Images": {
+        "header_experience_image": "Link",
+        "header_experience_link": "Link",
+        "image_address": "Link",
+        "image_link": "Link",
+        "footer_experience_logo_image": "Link",
+        "footer_fever_logo_image": "Link",
+        "partner_logo_1_image": "Link",
+        "partner_logo_2_image": "Link",
+    },
+    "Text": {
+        "title_text": "Texto",
+        "paragraph_1_text": "Texto",
+        "paragraph_2_text": "Texto",
+    },
+}
+
+# Diccionario para almacenar valores
+valores = {}
+
+# Crear formularios por categoría
+for categoria, campos_categoria in campos.items():
+    st.header(categoria)
+    valores[categoria] = {}
+    for campo, tipo in campos_categoria.items():
+        if tipo == "Color":
+            # Selector de color
+            valores[categoria][campo] = st.color_picker(f"{campo.replace('_', ' ').capitalize()}:")
+        elif tipo == "Link":
+            # Entrada de texto para links
+            valores[categoria][campo] = st.text_input(f"{campo.replace('_', ' ').capitalize()} (URL):")
+        elif tipo == "Texto":
+            # Área de texto para contenido
+            valores[categoria][campo] = st.text_area(f"{campo.replace('_', ' ').capitalize()}:")
+
+# Botón para generar el script
+if st.button("Generar HTML"):
+    # Generar el script HTML basado en las entradas
+    html_script = "<!DOCTYPE html>\n<html>\n<head>\n<style>\n"
+    
+    # Añadir estilos (Style)
+    for campo, valor in valores["Style"].items():
+        if valor:
+            html_script += f"  --{campo.replace('_', '-')}: {valor};\n"
+    html_script += "</style>\n</head>\n<body>\n"
+
+    # Añadir links (Links)
+    for campo, valor in valores["Links"].items():
+        if valor:
+            html_script += f'  <a href="{valor}" id="{campo}">{campo.replace("_", " ").capitalize()}</a><br>\n'
+
+    # Añadir imágenes (Images)
+    for campo, valor in valores["Images"].items():
+        if valor:
+            html_script += f'  <img src="{valor}" alt="{campo.replace("_", " ").capitalize()}"><br>\n'
+
+    # Añadir textos (Text)
+    for campo, valor in valores["Text"].items():
+        if valor:
+            html_script += f"  <p id='{campo}'>{valor}</p>\n"
+
+    html_script += "</body>\n</html>"
+
+    # Mostrar el HTML generado
+    st.write("### Script HTML generado:")
+    st.code(html_script, language="html")
+
+    # Botón para descargar el archivo
+    st.download_button(
+        label="Descargar HTML",
+        data=html_script,
+        file_name="formulario_generado.html",
+        mime="text/html"
+    )
+"
    ]
   },
   {
