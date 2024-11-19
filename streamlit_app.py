@@ -1,25 +1,4 @@
-{
- "cells": [
-  {
-   "cell_type": "code",
-   "execution_count": 7,
-   "id": "d49de69e-4c03-4e18-87d7-d449cad35546",
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stderr",
-     "output_type": "stream",
-     "text": [
-      "2024-11-19 11:35:43.211 \n",
-      "  \u001b[33m\u001b[1mWarning:\u001b[0m to view this Streamlit app on a browser, run it with the following\n",
-      "  command:\n",
-      "\n",
-      "    streamlit run C:\\Users\\FEVER\\anaconda3\\Lib\\site-packages\\ipykernel_launcher.py [ARGUMENTS]\n"
-     ]
-    }
-   ],
-   "source": [
-    "import streamlit as st
+import streamlit as st
 
 # Título de la aplicación
 st.title("Generador de HTML interactivo")
@@ -114,37 +93,3 @@ if st.button("Generar HTML"):
         file_name="formulario_generado.html",
         mime="text/html"
     )
-"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": None,
-   "id": "8170a898-60eb-4e47-a1cf-b04f97598bc4",
-   "metadata": {},
-   "outputs": [],
-   "source": []
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3 (ipykernel)",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.12.4"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
-}
