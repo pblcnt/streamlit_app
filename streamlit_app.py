@@ -31,6 +31,9 @@ partner_logo_2_image = st.text_input("URL del logo del partner 2", "")
 title_text = st.text_input("Título principal", "")
 paragraph_1_text = st.text_area("Texto del párrafo 1", "Stay tuned! A few hours before the official launch, you’ll get an email with priority access.")
 paragraph_text = st.text_area("Texto del párrafo 2", "")
+social_icon_1_link = st.text_area("Facebook url", "")
+social_icon_2_link = st.text_area("Instagram url", "")
+
 
 # Botón para enviar los datos
 if st.button("Enviar datos a Airtable"):
@@ -56,6 +59,8 @@ if st.button("Enviar datos a Airtable"):
             "title_text": title_text,
             "paragraph_1_text": paragraph_1_text,
             "paragraph_text": paragraph_text,
+            "social_icon_1_link": social_icon_1_link,
+            "social_icon_2_link": social_icon_2_link,
         }
     }
 
