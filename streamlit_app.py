@@ -7,7 +7,7 @@ BASE_ID = "appOLUxEF0FFUppQU"                        # Reemplaza con el ID de tu
 TABLE_NAME = "Input"             # Reemplaza con el nombre de tu tabla
 
 # Título de la aplicación
-st.title("Formulario para volcar datos a Airtable")
+st.title("Presender SWU")
 
 # Formulario en Streamlit para que los usuarios introduzcan los datos
 st.subheader("Introduce los valores de tu proyecto")
