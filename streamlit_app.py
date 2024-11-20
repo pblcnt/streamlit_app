@@ -29,6 +29,7 @@ footer_fever_logo_image = st.text_input("URL del logo de Fever", "")
 partner_logo_1_image = st.text_input("URL del logo del partner 1", "")
 partner_logo_2_image = st.text_input("URL del logo del partner 2", "")
 title_text = st.text_input("Título principal", "")
+title_text2 = st.text_input("Título secundario", "")
 paragraph_1_text = st.text_area("Texto del párrafo 1", "Stay tuned! A few hours before the official launch, you’ll get an email with priority access.")
 paragraph_text = st.text_area("Texto del párrafo 2", "")
 social_icon_1_link = st.text_input("Facebook url", "")
@@ -58,6 +59,7 @@ if st.button("Enviar datos a Airtable"):
             "partner_logo_2_image": partner_logo_2_image,
             "title_text": title_text,
             "paragraph_1_text": paragraph_1_text,
+            "title_text2": title_text2,
             "paragraph_text": paragraph_text,
             "social_icon_1_link": social_icon_1_link,
             "social_icon_2_link": social_icon_2_link,
