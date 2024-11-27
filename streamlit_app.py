@@ -33,11 +33,12 @@ columns = get_airtable_columns()
 
 # Reorganizar columnas: primero "color", luego "link", luego "image", luego el resto (alfabéticamente dentro de cada grupo)
 def organize_columns(columns):
+    proyect_columns = sorted([col for col in columns if "proyect" in col.lower()])
     color_columns = sorted([col for col in columns if "color" in col.lower()])
     link_columns = sorted([col for col in columns if "link" in col.lower()])
     image_columns = sorted([col for col in columns if "image" in col.lower()])
     other_columns = sorted([col for col in columns if "color" not in col.lower() and "link" not in col.lower() and "image" not in col.lower()])
-    return color_columns + link_columns + image_columns + other_columns
+    return proyect_columns + color_columns + link_columns + image_columns + other_columns
 
 # Organizar las columnas
 columns = organize_columns(columns)
