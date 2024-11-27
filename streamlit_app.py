@@ -29,12 +29,13 @@ def get_airtable_columns():
 # Obtener las columnas de Airtable
 columns = get_airtable_columns()
 
-# Reorganizar columnas: primero "color", luego "link", luego el resto (alfabéticamente dentro de cada grupo)
+# Reorganizar columnas: primero "color", luego "link", luego "image", luego el resto (alfabéticamente dentro de cada grupo)
 def organize_columns(columns):
     color_columns = sorted([col for col in columns if "color" in col.lower()])
     link_columns = sorted([col for col in columns if "link" in col.lower()])
-    other_columns = sorted([col for col in columns if "color" not in col.lower() and "link" not in col.lower()])
-    return color_columns + link_columns + other_columns
+    image_columns = sorted([col for col in columns if "image" in col.lower()])
+    other_columns = sorted([col for col in columns if "color" not in col.lower() and "link" not in col.lower() and "image" not in col.lower()])
+    return color_columns + link_columns + image_columns + other_columns
 
 # Organizar las columnas
 columns = organize_columns(columns)
@@ -46,11 +47,14 @@ st.title("Presender SWU⚡")
 data_to_send = {}
 
 for column in columns:
+    # Cambiar el nombre para hacerlo más visual (reemplazar _ por espacios y capitalizar)
+    display_name = column.replace("_", " ").capitalize()
+
     # Si el campo contiene "color", usar un selector de color
     if "color" in column.lower():
-        value = st.color_picker(f"{column} (#FFFFFF)", "#FFFFFF")
+        value = st.color_picker(f"{display_name} (#FFFFFF)", "#FFFFFF")
     else:
-        value = st.text_input(f"{column}", "")
+        value = st.text_input(f"{display_name}", "")
     data_to_send[column] = value
 
 # Botón para enviar los datos
