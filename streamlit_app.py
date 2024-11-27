@@ -7,7 +7,7 @@ BASE_ID = "appOLUxEF0FFUppQU"                        # Reemplaza con el ID de tu
 FIELDS_TABLE_NAME = "Fields"                         # Tabla de donde se obtienen los nombres de los campos
 INPUT_TABLE_NAME = "Input"                           # Tabla donde se envían las respuestas
 
-# Función para obtener todas las columnas de la tabla Fields
+# Función para obtener todas las columnas de la segunda fila de la tabla Fields
 
 def get_airtable_columns():
     url = f"https://api.airtable.com/v0/{BASE_ID}/{FIELDS_TABLE_NAME}"
@@ -18,10 +18,11 @@ def get_airtable_columns():
         response = requests.get(url, headers=headers)
         response.raise_for_status()
         records = response.json().get("records", [])
-        if records:
-            # Tomar todas las columnas del primer registro
-            columns = list(records[0]["fields"].keys())
+        if len(records) > 1:
+            # Tomar todas las columnas de la segunda fila
+            columns = list(records[1]["fields"].keys())
             return columns
+        st.warning("No hay suficientes filas en la tabla Fields para obtener la segunda fila.")
         return []
     except requests.exceptions.RequestException as e:
         st.error(f"Error al obtener las columnas de la tabla Fields de Airtable: {e}")
