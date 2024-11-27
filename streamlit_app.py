@@ -20,7 +20,7 @@ def get_airtable_columns():
         records = response.json().get("records", [])
         if len(records) > 0:
             # Tomar todas las columnas de la segunda fila
-            columns = list(records[0]["fields"].keys())
+            columns = list(records[1]["fields"].keys())
             return columns
         st.warning("No hay suficientes filas en la tabla Fields para obtener la segunda fila.")
         return []
