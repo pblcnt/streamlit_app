@@ -9,7 +9,7 @@ TABLE_NAME = "Input"                                 # Reemplaza con el nombre d
 # Función para obtener todas las columnas de Airtable
 
 def get_airtable_columns():
-    url = f"https://api.airtable.com/v0/{BASE_ID}/fields"
+    url = f"https://api.airtable.com/v0/{BASE_ID}/{TABLE_NAME}"
     headers = {
         "Authorization": f"Bearer {AIRTABLE_ACCESS_TOKEN}",
     }
