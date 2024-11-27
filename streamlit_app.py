@@ -32,13 +32,14 @@ fields = get_airtable_fields()
 st.title("Presender SWU⚡")
 
 # Formulario en Streamlit con campos dinámicos
-st.subheader("Formulario generado dinámicamente desde Airtable")
-
 data_to_send = {}
 
 for field in fields:
-    # Crear un input de texto para cada campo de Airtable
-    value = st.text_input(f"{field}", "")
+    # Si el campo contiene "color", usar un selector de color
+    if "color" in field.lower():
+        value = st.color_picker(f"{field} (#FFFFFF)", "#FFFFFF")
+    else:
+        value = st.text_input(f"{field}", "")
     data_to_send[field] = value
 
 # Botón para enviar los datos
