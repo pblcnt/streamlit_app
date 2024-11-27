@@ -6,7 +6,7 @@ AIRTABLE_ACCESS_TOKEN = "patYaqPd0ileyloji.2cffe12288672d161dce23161bfcbd9cede9a
 BASE_ID = "appOLUxEF0FFUppQU"                        # Reemplaza con el ID de tu base
 TABLE_NAME = "Input"                                 # Reemplaza con el nombre de tu tabla
 
-# Función para obtener todas las columnas de Airtable procesándolas directamente
+# Función para obtener todas las columnas de Airtable
 
 def get_airtable_columns():
     url = f"https://api.airtable.com/v0/{BASE_ID}/{TABLE_NAME}"
@@ -18,7 +18,7 @@ def get_airtable_columns():
         response.raise_for_status()
         records = response.json().get("records", [])
         if records:
-            # Tomar todas las columnas del primer registro y ordenarlas por su aparición
+            # Tomar todas las columnas del primer registro
             columns = list(records[0]["fields"].keys())
             return columns
         return []
@@ -28,6 +28,16 @@ def get_airtable_columns():
 
 # Obtener las columnas de Airtable
 columns = get_airtable_columns()
+
+# Reorganizar columnas: primero "color", luego "link", luego el resto (alfabéticamente dentro de cada grupo)
+def organize_columns(columns):
+    color_columns = sorted([col for col in columns if "color" in col.lower()])
+    link_columns = sorted([col for col in columns if "link" in col.lower()])
+    other_columns = sorted([col for col in columns if "color" not in col.lower() and "link" not in col.lower()])
+    return color_columns + link_columns + other_columns
+
+# Organizar las columnas
+columns = organize_columns(columns)
 
 # Título de la aplicación
 st.title("Presender SWU⚡")
