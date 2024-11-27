@@ -6,8 +6,9 @@ AIRTABLE_ACCESS_TOKEN = "patYaqPd0ileyloji.2cffe12288672d161dce23161bfcbd9cede9a
 BASE_ID = "appOLUxEF0FFUppQU"                        # Reemplaza con el ID de tu base
 TABLE_NAME = "Input"                                 # Reemplaza con el nombre de tu tabla
 
-# Función para obtener los nombres de los campos de Airtable en el orden del primer registro
-def get_airtable_field_order():
+# Función para obtener todas las columnas de Airtable procesándolas directamente
+
+def get_airtable_columns():
     url = f"https://api.airtable.com/v0/{BASE_ID}/{TABLE_NAME}"
     headers = {
         "Authorization": f"Bearer {AIRTABLE_ACCESS_TOKEN}",
@@ -17,15 +18,16 @@ def get_airtable_field_order():
         response.raise_for_status()
         records = response.json().get("records", [])
         if records:
-            # Tomar los nombres de los campos del primer registro, respetando el orden
-            return list(records[0]["fields"].keys())
+            # Tomar todas las columnas del primer registro y ordenarlas por su aparición
+            columns = list(records[0]["fields"].keys())
+            return columns
         return []
     except requests.exceptions.RequestException as e:
-        st.error(f"Error al obtener el orden de los campos de Airtable: {e}")
+        st.error(f"Error al obtener las columnas de Airtable: {e}")
         return []
 
-# Obtener los nombres de los campos en orden
-fields = get_airtable_field_order()
+# Obtener las columnas de Airtable
+columns = get_airtable_columns()
 
 # Título de la aplicación
 st.title("Presender SWU⚡")
@@ -33,13 +35,13 @@ st.title("Presender SWU⚡")
 # Formulario en Streamlit con campos dinámicos
 data_to_send = {}
 
-for field in fields:
+for column in columns:
     # Si el campo contiene "color", usar un selector de color
-    if "color" in field.lower():
-        value = st.color_picker(f"{field} (#FFFFFF)", "#FFFFFF")
+    if "color" in column.lower():
+        value = st.color_picker(f"{column} (#FFFFFF)", "#FFFFFF")
     else:
-        value = st.text_input(f"{field}", "")
-    data_to_send[field] = value
+        value = st.text_input(f"{column}", "")
+    data_to_send[column] = value
 
 # Botón para enviar los datos
 if st.button("Enviar datos a Airtable"):
