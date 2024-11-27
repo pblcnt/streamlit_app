@@ -6,7 +6,8 @@ AIRTABLE_ACCESS_TOKEN = "patYaqPd0ileyloji.2cffe12288672d161dce23161bfcbd9cede9a
 BASE_ID = "appOLUxEF0FFUppQU"                        # Reemplaza con el ID de tu base
 TABLE_NAME = "Input"                                 # Reemplaza con el nombre de tu tabla
 
-# Función para obtener los nombres de los campos de Airtable
+# Función para obtener los nombres de los campos de Airtable en el mismo orden
+
 def get_airtable_fields():
     url = f"https://api.airtable.com/v0/{BASE_ID}/{TABLE_NAME}"
     headers = {
@@ -17,8 +18,9 @@ def get_airtable_fields():
         response.raise_for_status()
         records = response.json().get("records", [])
         if records:
-            # Tomar los nombres de los campos del primer registro
-            return list(records[0]["fields"].keys())
+            # Tomar los nombres de los campos del primer registro, respetando el orden
+            fields_order = response.json().get("records")[0]["fields"]
+            return list(fields_order.keys())
         else:
             return []
     except requests.exceptions.RequestException as e:
