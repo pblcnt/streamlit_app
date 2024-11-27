@@ -9,7 +9,7 @@ TABLE_NAME = "Input"                                 # Reemplaza con el nombre d
 # Función para obtener todas las columnas de Airtable
 
 def get_airtable_columns():
-    url = f"https://api.airtable.com/v0/{BASE_ID}/{TABLE_NAME}"
+    url = f"https://api.airtable.com/v0/{BASE_ID}/fields"
     headers = {
         "Authorization": f"Bearer {AIRTABLE_ACCESS_TOKEN}",
     }
@@ -31,6 +31,7 @@ columns = get_airtable_columns()
 
 # Reorganizar columnas: primero "color", luego "link", luego "image", luego el resto (alfabéticamente dentro de cada grupo)
 def organize_columns(columns):
+    Proyecto_columns = sorted([col for col in columns if "proyecto" in col-lower()])
     color_columns = sorted([col for col in columns if "color" in col.lower()])
     link_columns = sorted([col for col in columns if "link" in col.lower()])
     image_columns = sorted([col for col in columns if "image" in col.lower()])
