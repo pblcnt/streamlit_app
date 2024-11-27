@@ -7,7 +7,7 @@ BASE_ID = "appOLUxEF0FFUppQU"                        # Reemplaza con el ID de tu
 FIELDS_TABLE_NAME = "Fields"                         # Tabla de donde se obtienen los nombres de los campos
 INPUT_TABLE_NAME = "Input"                           # Tabla donde se envían las respuestas
 
-# Función para obtener todas las columnas de la segunda fila de la tabla Fields
+# Función para obtener todas las columnas de la primera fila de la tabla Fields
 
 def get_airtable_columns():
     url = f"https://api.airtable.com/v0/{BASE_ID}/{FIELDS_TABLE_NAME}"
@@ -19,10 +19,10 @@ def get_airtable_columns():
         response.raise_for_status()
         records = response.json().get("records", [])
         if len(records) > 0:
-            # Tomar todas las columnas de la segunda fila
-            columns = list(records[1]["fields"].keys())
+            # Tomar los valores de la primera fila como nombres de los campos
+            columns = list(records[0]["fields"].values())
             return columns
-        st.warning("No hay suficientes filas en la tabla Fields para obtener la segunda fila.")
+        st.warning("No hay filas en la tabla Fields para obtener datos.")
         return []
     except requests.exceptions.RequestException as e:
         st.error(f"Error al obtener las columnas de la tabla Fields de Airtable: {e}")
@@ -33,12 +33,11 @@ columns = get_airtable_columns()
 
 # Reorganizar columnas: primero "color", luego "link", luego "image", luego el resto (alfabéticamente dentro de cada grupo)
 def organize_columns(columns):
-    proyect_columns = sorted([col for col in columns if "proyect" in col.lower()])
     color_columns = sorted([col for col in columns if "color" in col.lower()])
     link_columns = sorted([col for col in columns if "link" in col.lower()])
     image_columns = sorted([col for col in columns if "image" in col.lower()])
     other_columns = sorted([col for col in columns if "color" not in col.lower() and "link" not in col.lower() and "image" not in col.lower()])
-    return proyect_columns + color_columns + link_columns + image_columns + other_columns
+    return color_columns + link_columns + image_columns + other_columns
 
 # Organizar las columnas
 columns = organize_columns(columns)
