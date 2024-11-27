@@ -8,27 +8,26 @@ TABLE_NAME = "Input"                                 # Reemplaza con el nombre d
 
 # Función para obtener los nombres de los campos de Airtable en el mismo orden
 
-def get_airtable_fields():
-    url = f"https://api.airtable.com/v0/{BASE_ID}/{TABLE_NAME}"
+def get_airtable_field_order():
+    url = f"https://api.airtable.com/v0/meta/bases/{BASE_ID}/tables"
     headers = {
         "Authorization": f"Bearer {AIRTABLE_ACCESS_TOKEN}",
     }
     try:
         response = requests.get(url, headers=headers)
         response.raise_for_status()
-        records = response.json().get("records", [])
-        if records:
-            # Tomar los nombres de los campos del primer registro, respetando el orden
-            fields_order = response.json().get("records")[0]["fields"]
-            return list(fields_order.keys())
-        else:
-            return []
+        tables = response.json().get("tables", [])
+        for table in tables:
+            if table["name"] == TABLE_NAME:
+                # Extraer los campos en el orden correcto
+                return [field["name"] for field in table["fields"]]
+        return []
     except requests.exceptions.RequestException as e:
-        st.error(f"Error al obtener los campos de Airtable: {e}")
+        st.error(f"Error al obtener el orden de los campos de Airtable: {e}")
         return []
 
-# Obtener los nombres de los campos de Airtable
-fields = get_airtable_fields()
+# Obtener los nombres de los campos en orden
+fields = get_airtable_field_order()
 
 # Título de la aplicación
 st.title("Presender SWU⚡")
