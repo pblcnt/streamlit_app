@@ -47,15 +47,16 @@ st.title("Presender SWU:alto_voltaje:")
 
 # Formulario en Streamlit con campos dinámicos
 data_to_send = {}
-for column in columns:
+for idx, column in enumerate(columns):
     # Cambiar el nombre para hacerlo más visual (reemplazar _ por espacios y capitalizar)
     display_name = column.replace("_", " ").capitalize()
     # Si el campo contiene "color", usar un selector de color
     if "color" in column.lower():
-        value = st.color_picker(f"{display_name} (#FFFFFF)", "#FFFFFF", key=f"color_{column}")
+        value = st.color_picker(f"{display_name} (#FFFFFF)", "#FFFFFF", key=f"color_{column}_{idx}")
     else:
-        value = st.text_input(f"{display_name}", "", key=f"text_{column}")
+        value = st.text_input(f"{display_name}", "", key=f"text_{column}_{idx}")
     data_to_send[column] = value
+
 
 # Botón para enviar los datos
 if st.button("Enviar datos a la tabla Input de Airtable"):
