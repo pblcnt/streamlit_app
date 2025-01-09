@@ -43,7 +43,7 @@ def organize_columns(columns):
 columns = organize_columns(columns)
 
 # Título de la aplicación
-st.title("Presender SWU:alto_voltaje:")
+st.title("Presender SWU ⚡")
 
 # Formulario en Streamlit con campos dinámicos
 data_to_send = {}
