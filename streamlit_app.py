@@ -1,10 +1,12 @@
 import streamlit as st
 import requests
+
 # Configuración de Airtable
 AIRTABLE_ACCESS_TOKEN = "patYaqPd0ileyloji.2cffe12288672d161dce23161bfcbd9cede9a47c108b126e16582d2862e896ab"  # Reemplaza con tu token de acceso personal
 BASE_ID = "appOLUxEF0FFUppQU"                        # Reemplaza con el ID de tu base
 FIELDS_TABLE_NAME = "Fields"                         # Tabla de donde se obtienen los nombres de los campos
 INPUT_TABLE_NAME = "Input"                           # Tabla donde se envían las respuestas
+
 # Función para obtener todas las columnas de la primera fila de la tabla Fields
 def get_airtable_columns():
     url = f"https://api.airtable.com/v0/{BASE_ID}/{FIELDS_TABLE_NAME}"
@@ -24,8 +26,10 @@ def get_airtable_columns():
     except requests.exceptions.RequestException as e:
         st.error(f"Error al obtener las columnas de la tabla Fields de Airtable: {e}")
         return []
+
 # Obtener las columnas de Airtable
 columns = get_airtable_columns()
+
 # Reorganizar columnas: primero "color", luego "link", luego "image", luego el resto (alfabéticamente dentro de cada grupo)
 def organize_columns(columns):
     proyect_columns = sorted([col for col in columns if "proyect" in col.lower()])
@@ -34,10 +38,13 @@ def organize_columns(columns):
     image_columns = sorted([col for col in columns if "image" in col.lower()])
     other_columns = sorted([col for col in columns if "color" not in col.lower() and "link" not in col.lower() and "image" not in col.lower()])
     return proyect_columns + color_columns + link_columns + image_columns + other_columns
+
 # Organizar las columnas
 columns = organize_columns(columns)
+
 # Título de la aplicación
 st.title("Presender SWU:alto_voltaje:")
+
 # Formulario en Streamlit con campos dinámicos
 data_to_send = {}
 for column in columns:
@@ -45,10 +52,11 @@ for column in columns:
     display_name = column.replace("_", " ").capitalize()
     # Si el campo contiene "color", usar un selector de color
     if "color" in column.lower():
-        value = st.color_picker(f"{display_name} (#FFFFFF)", "#FFFFFF")
+        value = st.color_picker(f"{display_name} (#FFFFFF)", "#FFFFFF", key=f"color_{column}")
     else:
-        value = st.text_input(f"{display_name}", "")
+        value = st.text_input(f"{display_name}", "", key=f"text_{column}")
     data_to_send[column] = value
+
 # Botón para enviar los datos
 if st.button("Enviar datos a la tabla Input de Airtable"):
     # Filtrar campos vacíos
